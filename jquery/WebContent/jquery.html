@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<style>
+	/* 감추기 */
+	.myNotice{display: none;}
+</style>
+<script type="text/javascript">
+	/* 함수로 만들기 : 공통으로 가져다 사용하면 된다 */
+	var myNotice =function(){
+		var isCheck = true;	/* return을하면 false값이 each만 벗어난다 */
+		$('.myNotice').each(function(){
+			/* 클래스가 myNotice인 것만 */
+			var type = $(this).attr('type');
+			var target = $(this).attr('target');
+			var length = parseInt($(this).attr('length'));
+			var notice = $(this).text(); /* 태그안에 잇는 텍스트를 가져온다 */
+			var targetVal = null;
+			
+			if(type == 'text'){
+				targetVal = $('input[name="'+target+'"]').val();	/* 값을 가져오겠죠 */
+				if(targetVal == undefined || targetVal == ''){
+					alert(notice);
+					isCheck = false;
+					return false;
+				}
+			}else if(type = 'radio'){
+				/* 라디오는 중복이 선택이 안되기 때문에 하나의 값만 체크하면 된다 */
+				targetVal = $('input[name="'+target+'"]:checked').val();	/* 값을 가져오겠죠 */
+				if(targetVal == undefined || targetVal == ''){
+					alert(notice);
+					isCheck = false;
+					return false;
+				}
+			}else if(type = 'checkbox'){
+				/* checkbox는 하나일수도 두개일수도 length를 체크*/
+				var index =0;
+				$('input[name="'+target+'"]').each(function(){
+					if($(this).prop('checked')){
+						index++;
+					}
+				});
+				if(index == 0 || length > index	){
+					alert(notice);
+					isCheck = false;
+					return false;
+				}
+			}
+		});
+		return isCheck;
+	};
+	
+	$(document).ready(function(){
+				/* ㄴ사용할 준비가 되엇다 */
+		$('#submitButton').click(function(){
+			var isSubmit = myNotice();
+			if(isSubmit){
+				alert('정상처리');
+				
+			}else{
+				return false;
+			}
+		});		
+	});
+	
+</script>
+</head>
+<body>
+	<!-- 유효성 검사 하기 -->
+	<div>
+		<span class="myNotice" type="text" target="myName" >
+			이름을 입력해주세요	<!-- ㄴ없는 속성을 강제로 집어 넣는 것	 -->
+		</span>
+	</div>
+	<div>
+		<input type="text" name="myName">
+	</div>
+	
+	<div>
+		<span class="myNotice" type="text" target="myAge" >
+			나이를 입력해주세요	<!-- ㄴ없는 속성을 강제로 집어 넣는 것	 -->
+		</span>
+	</div>
+	<div>
+		<input type="text" name="myAge">
+	</div>
+	
+	<div>
+		<span class="myNotice" type="radio" target="en">
+			최소 1개 선택하셔야 합니다.
+		</span>
+	</div>
+	<div>
+		<input type="radio" name="en" value="a"> a
+		<input type="radio" name="en" value="b"> b
+		<input type="radio" name="en" value="c"> c
+	</div>
+	
+	<div>
+		<span class="myNotice" type="radio" target="ko">
+			최소 1개 선택하셔야 합니다.
+		</span>
+	</div>
+	<div>
+		<input type="radio" name="ko" value="가"> 가
+		<input type="radio" name="ko" value="나"> 나
+		<input type="radio" name="ko" value="다"> 다
+	</div>
+
+	<div>
+		<span class="myNotice" type="checkbox" target="num" length="2">
+			최소 2개 이상 선택하셔야 합니다.
+		</span>
+	</div>
+	<div>
+		<input type="checkbox" name="num" value="1"> 1
+		<input type="checkbox" name="num" value="2"> 2
+		<input type="checkbox" name="num" value="3"> 3
+	</div>
+	<div>
+		<button type="button" id="submitButton">저장</button>
+	</div>
+</body>
+</html>

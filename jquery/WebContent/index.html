@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).on('click', function(){
+	$("#sumbitButton").click(function() {
+		console.log('룰루')
+		var checkArray = new Array();
+		if($(this).prop('checked')){
+			checkArray.push($(this).val());
+		}
+		console.log(checkArray)
+	});
+	
+	$('select[name="selectCheck"]').children().each(function(){
+		if($(this).prop('selected')){
+		console.log($(this).attr('optionType'));
+		console.log($(this).attr('value'));
+		}
+		
+	});
+
+	
+});
+
+
+
+</script>
+</head>
+<body>
+	<!-- 체크된 대상을 배열로 담아보세요 -->
+	<input type="checkbox" name="checkNumber" 
+	value="checkbox1" /> checkbox1
+	<input type="checkbox" name="checkNumber" 
+	value="checkbox2" /> checkbox2
+	<input type="checkbox" name="checkNumber" 
+	value="checkbox3" /> checkbox3
+	<br>
+	
+	<!-- 체크박스의 체크된 대상은 해제, 해제된 대상은 체크를 해보세요 -->
+	<button type="button" id="reCheck">반전</button>
+
+	<!-- 선택된 값을 출력시키고 선택된 대상의 값과 optionType속성 값을 출력시키세요 -->
+	<select name="selectCheck">
+		<option value="">:: 선택해주세요 ::</option>
+		<option value="" optionType="select1">select1</option>
+		<option value="" optionType="select2">select2</option>
+		<option value="" optionType="select3">select3</option>
+	</select>
+	<button type="button" id="sumbitButton">확인</button>
+	
+</body>
+</html>
